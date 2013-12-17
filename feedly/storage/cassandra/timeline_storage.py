@@ -69,6 +69,8 @@ class CassandraTimelineStorage(BaseTimelineStorage):
         super(CassandraTimelineStorage, self).__init__(
             serializer_class, **options)
         self.model = self.get_model(self.base_model, self.column_family_name)
+        from cqlengine.management import sync_table
+        sync_table(self.model)
 
     def add_to_storage(self, key, activities, batch_interface=None):
         batch = batch_interface or self.get_batch_interface()
@@ -158,6 +160,6 @@ class CassandraTimelineStorage(BaseTimelineStorage):
         if stop is not None:
             limit = (stop - (start or 0))
 
-        for activity in query.order_by('-activity_id').limit(limit):
+        for activity in query.order_by('-activity_id'):
             results.append([activity.activity_id, activity])
         return results
