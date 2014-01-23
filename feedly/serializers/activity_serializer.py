@@ -31,11 +31,11 @@ class ActivitySerializer(BaseSerializer):
         if extra_context:
             pickle_string = pickle.dumps(activity.extra_context)
         parts += [activity_time, pickle_string]
-        serialized_activity = ','.join(map(str, parts))
+        serialized_activity = '|'.join(map(str, parts))
         return serialized_activity
 
     def loads(self, serialized_activity):
-        parts = serialized_activity.split(',')
+        parts = serialized_activity.split('|')
         # convert these to ids
         actor_id, verb_id, object_id, target_id = map(
             int, parts[:4])
