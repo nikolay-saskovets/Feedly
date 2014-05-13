@@ -22,7 +22,7 @@ class AggregatedActivitySerializer(BaseAggregatedSerializer):
     #: indicates if dumps returns dehydrated aggregated activities
     dehydrate = True
     identifier = 'v3'
-    reserved_characters = [';', ',', ';;']
+    reserved_characters = ['\t', '|', '\t\t']
     date_fields = ['created_at', 'updated_at', 'seen_at', 'read_at']
     aggregated_class = AggregatedActivity
 
@@ -34,7 +34,7 @@ class AggregatedActivitySerializer(BaseAggregatedSerializer):
         activity_serializer = self.activity_serializer_class()
         # start by storing the group
         parts = [aggregated.group]
-        check_reserved(aggregated.group, [';;'])
+        check_reserved(aggregated.group, ['\t\t'])
 
         # store the dates
         for date_field in self.date_fields:
@@ -51,7 +51,7 @@ class AggregatedActivitySerializer(BaseAggregatedSerializer):
         else:
             for activity in aggregated.activities:
                 serialized = activity_serializer.dumps(activity)
-                check_reserved(serialized, [';', ';;'])
+                check_reserved(serialized, ['\t', '\t\t'])
                 serialized_activities.append(serialized)
 
         serialized_activities_part = ';'.join(serialized_activities)
@@ -61,7 +61,7 @@ class AggregatedActivitySerializer(BaseAggregatedSerializer):
         parts.append(aggregated.minimized_activities)
 
         # stick everything together
-        serialized_aggregated = ';;'.join(map(str, parts))
+        serialized_aggregated = '\t\t'.join(map(str, parts))
         serialized = '%s%s' % (self.identifier, serialized_aggregated)
         return serialized
 
@@ -69,7 +69,7 @@ class AggregatedActivitySerializer(BaseAggregatedSerializer):
         activity_serializer = self.activity_serializer_class()
         try:
             serialized_aggregated = serialized_aggregated[2:]
-            parts = serialized_aggregated.split(';;')
+            parts = serialized_aggregated.split('\t\t')
             # start with the group
             group = parts[0]
             aggregated = self.aggregated_class(group)
@@ -83,7 +83,7 @@ class AggregatedActivitySerializer(BaseAggregatedSerializer):
                 setattr(aggregated, k, date_value)
 
             # write the activities
-            serializations = parts[5].split(';')
+            serializations = parts[5].split('\t')
             if self.dehydrate:
                 activity_ids = map(int, serializations)
                 aggregated._activity_ids = activity_ids
