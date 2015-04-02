@@ -155,16 +155,16 @@ class AggregatedActivity(BaseActivity):
     '''
     max_aggregated_activities_length = MAX_AGGREGATED_ACTIVITIES_LENGTH
 
-    def __init__(self, group, activities=None, created_at=None, updated_at=None):
+    def __init__(self, group, activities=None, created_at=None, updated_at=None, read_at=None, seen_at=None):
         self.group = group
         self.activities = activities or []
         self.created_at = created_at
         self.updated_at = updated_at
         # if the user opened the notification window and browsed over the
         # content
-        self.seen_at = None
+        self.seen_at = seen_at
         # if the user engaged with the content
-        self.read_at = None
+        self.read_at = read_at
         # activity
         self.minimized_activities = 0
         self.dehydrated = False

@@ -22,7 +22,7 @@ class CassandraFeed(BaseFeed):
     timeline_serializer = CassandraActivitySerializer
 
     # ; the name of the column family
-    timeline_cf_name = 'example'
+    timeline_cf_name = 'feedly'
 
     @classmethod
     def get_timeline_storage_options(cls):

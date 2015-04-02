@@ -19,4 +19,4 @@ The new stream_framework package is backwards compatible with Feedly. Please upg
 package will be removed from pypi. Read more about it in this blog post:
 https://www.tumblr.com/blog/getstream
 '''
-warnings.warn(message, DeprecationWarning)
+# warnings.warn(message, DeprecationWarning)

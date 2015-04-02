@@ -48,14 +48,13 @@ class CassandraTimelineStorage(BaseTimelineStorage):
 
     """
 
-    from feedly.storage.cassandra.connection import setup_connection
-    setup_connection()
-
     default_serializer_class = CassandraActivitySerializer
     base_model = models.Activity
     insert_batch_size = 100
 
     def __init__(self, serializer_class=None, **options):
+        from feedly.storage.cassandra.connection import setup_connection
+        setup_connection()
         self.column_family_name = options.pop('column_family_name')
         super(CassandraTimelineStorage, self).__init__(
             serializer_class, **options)
@@ -179,7 +178,9 @@ class CassandraTimelineStorage(BaseTimelineStorage):
 
         if stop is not None:
             limit = (stop - (start or 0))
+            query = query.limit(limit)
 
-        for activity in query.order_by(*ordering).limit(limit):
+        for activity in query.order_by(*ordering):
             results.append([activity.activity_id, activity])
+
         return results
