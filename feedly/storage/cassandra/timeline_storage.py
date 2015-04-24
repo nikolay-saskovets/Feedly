@@ -53,8 +53,6 @@ class CassandraTimelineStorage(BaseTimelineStorage):
     insert_batch_size = 100
 
     def __init__(self, serializer_class=None, **options):
-        from feedly.storage.cassandra.connection import setup_connection
-        setup_connection()
         self.column_family_name = options.pop('column_family_name')
         super(CassandraTimelineStorage, self).__init__(
             serializer_class, **options)
