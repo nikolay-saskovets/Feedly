@@ -411,7 +411,7 @@ class AggregatedActivity(BaseActivity):
         verbs = [v.past_tense for v in self.verbs]
         actor_ids = self.actor_ids
         object_ids = self.object_ids
-        actors = ','.join(map(str, actor_ids))
+        actors = '|'.join(map(str, actor_ids))
         message = 'AggregatedActivity(%s-%s) Actors %s: Objects %s' % (
-            self.group, ','.join(verbs), actors, object_ids)
+            self.group, '|'.join(verbs), actors, object_ids)
         return message

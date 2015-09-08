@@ -58,7 +58,7 @@ class AggregatedActivitySerializer(BaseAggregatedSerializer):
                 check_reserved(serialized, ['\t', '\t\t'])
                 serialized_activities.append(serialized)
 
-        serialized_activities_part = ';'.join(serialized_activities)
+        serialized_activities_part = '\t'.join(serialized_activities)
         parts.append(serialized_activities_part)
 
         # add the minified activities

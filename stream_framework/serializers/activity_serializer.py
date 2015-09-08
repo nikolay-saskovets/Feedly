@@ -44,7 +44,7 @@ class ActivitySerializer(BaseSerializer):
             int, parts[:4])
         activity_datetime = epoch_to_datetime(float(parts[4]))
         # just in case the original pickle_string contains a comma
-        pickle_string = ','.join(parts[5:])
+        pickle_string = '|'.join(parts[5:])
         if not target_id:
             target_id = None
         verb = get_verb_by_id(verb_id)
