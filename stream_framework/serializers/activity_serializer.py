@@ -34,11 +34,11 @@ class ActivitySerializer(BaseSerializer):
             if six.PY3:
                 pickle_string = pickle_string.decode('latin1')
         parts += [activity_time, pickle_string]
-        serialized_activity = ','.join(map(str, parts))
+        serialized_activity = '|'.join(map(str, parts))
         return serialized_activity
 
     def loads(self, serialized_activity):
-        parts = serialized_activity.split(',')
+        parts = serialized_activity.split('|')
         # convert these to ids
         actor_id, verb_id, object_id, target_id = map(
             int, parts[:4])
